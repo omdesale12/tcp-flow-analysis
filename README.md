@@ -1,6 +1,6 @@
 # Generating Bidirectional TCP Flow Data from PCAP Files for Network Forensics
-#
-#Introduction
+
+##Introduction
 Due to the widespread internet connectivity, cloud computing, Internet of Things (IoT) devices, and remote working environments, network-based cyberattacks have increased dramatically over the past ten years. In order to interfere with services, steal confidential data, or access systems without authorisation, hackers are increasingly focussing on network protocols and infrastructure.
 Network traffic analysis, or NTA, is essential to contemporary cybersecurity and digital forensics investigations. In order to identify potential attackers, reconstruct security incidents, and detect malicious activity, it entails capturing and analysing network packets. NTA is now crucial for incident response, threat hunting, and legal investigations since many cyberattacks depend on network communication.
 Packet Capture (PCAP) files are commonly used to record individual packets sent over a network in order to store raw network traffic data. These files are trustworthy forensic artifacts because they retain specific information like timestamps, source and destination IP addresses, ports, protocols, and payload data. Investigators can reconstruct attack timelines, examine communication between compromised systems and external entities, and analyze malicious behavior using PCAP files.
