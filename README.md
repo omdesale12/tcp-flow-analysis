@@ -14,34 +14,34 @@ This article is based on a self-learning exercise carried out as part of my cybe
 One popular format for storing network packet captures is Packet Capture (PCAP) files. The raw bytes of network communication across OSI layers, usually from Layer 2 to Layer 7, are preserved in a PCAP file, which contains an exact copy of every packet seen on a network interface. Because of this degree of detail, PCAP files are among the most thorough sources of network evidence.
 Raw network traffic data taken straight from a network interface is stored in PCAP files. Transport protocols like TCP, UDP, and ICMP, source and destination IP addresses, MAC addresses, source and destination ports, timestamps, packet sizes, protocol flags, and frequently the actual packet payload are all included in this data. PCAP files offer an accurate and comprehensive record of network activity since this data is captured at the packet level.
 Preserving raw PCAP data is critical to maintaining evidence integrity and credibility. Raw packet captures allow accurate reconstruction of events without information loss or analyst interpretation bias. They support verifiable timelines, enable reanalysis as new techniques emerge, and help meet legal, compliance, and audit requirements. As a result, PCAP files serve as a foundational artifact in network-based digital forensic investigations.
-
-## TCP Flow Data: Concept and Importance
+---
+### TCP Flow Data: Concept and Importance
 A TCP flow represents a logical communication session between two network endpoints using the Transmission Control Protocol (TCP). Each flow is uniquely identified using a five-tuple consisting of the source IP address, destination IP address, source port, destination port, and protocol. A TCP flow includes all packets exchanged during the lifetime of a connection, starting from the connection establishment phase marked by the SYN and SYN-ACK packets and ending with connection termination using FIN or RST flags.
 Traditional packet-level analysis focuses on examining individual packets in detail, including protocol headers and payload content. While this approach provides deep visibility into network communication, it generates extremely large volumes of data and requires significant computational effort. Analyzing packet-level data becomes increasingly difficult in high-speed or large-scale network environments.
 Flow-level analysis addresses these challenges by aggregating packets that belong to the same communication session into a single flow. Instead of inspecting every packet, flow-based analysis relies on summarized metadata such as packet counts, byte counts, flow duration, and traffic direction. This abstraction provides a high-level view of network behavior while significantly reducing data volume and processing overhead.
-
-## 5-Tuple as a Flow Identifier
+---
+### 5-Tuple as a Flow Identifier
 In network monitoring and digital forensics, millions of packets may traverse a network within a short period of time. To accurately analyze this traffic, it is essential to group related packets into logical communication sessions. This requires a reliable and consistent method for identifying which packets belong to the same network flow.
 The five-tuple is a standard and widely accepted approach used to uniquely identify a network flow. It consists of five parameters that together describe a single communication session between two endpoints: source IP address, destination IP address, source port, destination port, and protocol. Each of these parameters contributes critical context to accurately distinguish one flow from another.
 Together, these five attributes uniquely represent a TCP session because no two active connections can share the same combination at the same time. This uniqueness allows all packets associated with a particular TCP connection to be accurately grouped into a single flow, even in high-traffic environments.
-
-## System Overview: From PCAP to TCP Flow Data
+---
+### System Overview: From PCAP to TCP Flow Data
 The system begins by taking a PCAP (Packet Capture) file as input. This file contains raw, time-stamped network packets captured directly from a network interface and serves as the primary source of network evidence for flow generation and analysis. Using PCAP files ensures that the system operates on complete and unaltered network data.
 From the input PCAP file, the system first filters packets to identify TCP traffic. Non-TCP packets are excluded at this stage, allowing the analysis to focus specifically on TCP-based communication, which is inherently session-oriented and well suited for flow-based analysis. This filtering step reduces noise and improves processing efficiency.
 Each TCP packet is then grouped into a flow using the five-tuple identifier consisting of source IP address, destination IP address, source port, destination port, and protocol. This grouping ensures that all packets belonging to the same TCP session are accurately associated. To provide a complete representation of communication, packets traveling in both directions between two endpoints are combined into a single bidirectional flow. This bidirectional approach captures both requests and responses, offering full visibility into session behavior.
 As packets are processed, the system maintains flow state information throughout the lifetime of each flow. Flow attributes such as packet counts, byte counts, timestamps, and TCP flag information are continuously updated. Maintaining flow state ensures continuity and enables accurate tracking of session behavior from initiation to termination.
 TCP flags play a critical role in understanding the behavior and state of a connection. The system tracks key TCP flags, including SYN, SYN-ACK, ACK, FIN, and RST, to analyze how a session is established, acknowledged, and terminated. By observing the sequence and frequency of these flags, the system can identify normal connection patterns as well as abnormal behaviors such as repeated connection attempts or unexpected resets.
 In addition to flag tracking, the system extracts key flow-level features required for further analysis. These include source and destination IP addresses and ports to identify communicating endpoints and services, total packet and byte counts to measure traffic volume, and flow duration calculated using timestamps from the first and last packets. The system also records SYN and ACK counts to help detect scanning behavior or anomalous connection patterns. Connection termination characteristics, such as graceful termination using FIN flags or abrupt termination using RST flags, are captured to assess whether a flow exhibits normal or suspicious behavior.
-
-## Conversion of TCP Flow Data to CSV Format
+---
+### Conversion of TCP Flow Data to CSV Format
 After TCP flow generation, the extracted flow-level features must be stored in a structured format to enable efficient analysis, comparison, and automation. Structured data ensures consistent representation of network flows, simplifies querying, and allows seamless integration with analytical, forensic, and security workflows.
 Comma-Separated Values (CSV) is chosen as the output format due to its simplicity, lightweight nature, and widespread support. CSV files can be easily generated from flow records and read by a wide range of tools, programming languages, and platforms without requiring specialized software. This makes CSV a practical and accessible format for both research and operational environments.
-
-## Applications of TCP Flow Data in Digital Forensics and Security
+---
+### Applications of TCP Flow Data in Digital Forensics and Security
 TCP flow data is vital in network forensics because it provides a summarized yet comprehensive view of network communication using flow-level metadata. It enables investigators to reconstruct events, trace attacker activity, and identify compromised systems, even when encryption prevents payload inspection. Flow data is widely used in intrusion detection systems to detect port scanning, brute-force attacks, and denial-of-service activity in high-speed networks. In malware analysis, it reveals command-and-control communication, beaconing behavior, and unauthorized data transfers. Flow-based analysis also supports anomaly and behavior-based detection and helps build baseline network traffic profiles for continuous monitoring and early threat detection.
-
-## Challenges and Limitations
+---
+### Challenges and Limitations
 Despite its benefits, flow-based network analysis has several challenges and limitations. Encrypted network traffic restricts access to packet payloads, forcing reliance on metadata and behavior patterns, which can reduce detection accuracy for payload-dependent attacks. Large PCAP file sizes in high-traffic environments create storage and processing challenges, increasing analysis time. Flow generation and feature extraction introduce significant computational overhead, requiring substantial CPU and memory resources, especially for large datasets or near real-time analysis. Additionally, incomplete or corrupted packet captures due to packet loss or capture errors can result in inaccurate or incomplete flows, leading to misinterpretation of network behavior during forensic investigations and security analysis.
-
-## Keywords
+---
+### Keywords
 Network Forensics, PCAP Analysis, TCP Flow Data, Cybersecurity, Machine Learning
